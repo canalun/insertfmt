@@ -1,4 +1,4 @@
-use rsqloth_core::format_insert_queries;
+use insertfmt_core::format_insert_queries;
 use std::{
     env,
     error::Error,

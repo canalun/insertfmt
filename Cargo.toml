@@ -1,14 +1,14 @@
 [package]
-name = "rsqloth"
-version = "0.1.0"
+name = "insertfmt"
+version = "1.0.0"
 edition = "2021"
 
 [[bin]]
-name = "rsqloth"
+name = "insertfmt"
 path = "./cli/main.rs"
 
 [lib]
-name = "rsqloth_core"
+name = "insertfmt_core"
 path = "./core/core.rs"
 
 [dependencies]
