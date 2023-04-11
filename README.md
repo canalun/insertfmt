@@ -2,13 +2,16 @@
 
 fast & easy CLI specialized to format MySQL INSERT queries.
 
+format queries so that they look like a table.
+
 ![preview](./images/preview.gif)
 
 ## Installation
 
-You can also download the binary you want from releases. The binary is
-self-sufficient with no dependencies, and can just be put anywhere on your PATH
-and run with `insertfmt` command.
+You can also download the binary from releases.
+
+The binary is self-sufficient with no dependencies, and can be put anywhere on
+your PATH and run with `insertfmt` command.
 
 You can also install the module directly with `cargo`.
 
