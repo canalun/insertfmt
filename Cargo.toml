@@ -1,0 +1,19 @@
+[package]
+name = "rsqloth"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "rsqloth"
+path = "./cli/main.rs"
+
+[lib]
+name = "rsqloth_core"
+path = "./core/core.rs"
+
+[dependencies]
+regex = "1.7.1"
+sqlparser = "0.32.0"
+itertools = "0.10.5"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
