@@ -8,16 +8,16 @@ format queries so that they look like a table.
 
 ## Installation
 
-You can also download the binary from releases.
-
-The binary is self-sufficient with no dependencies, and can be put anywhere on
-your PATH and run with `insertfmt` command.
-
-You can also install the module directly with `cargo`.
+You can install the module directly with `cargo`.
 
 ```
 cargo install insertfmt
 ```
+
+You can also download the binary from releases.
+
+The binary is self-sufficient with no dependencies, and can be put anywhere on
+your PATH and run with `insertfmt` command.
 
 ## Basic Usage
 
