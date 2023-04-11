@@ -28,3 +28,8 @@ insertfmt x.sql y.sql <...>
 ```
 
 You can specify as many paths as you want.
+
+## Release Note
+### v1.0.0
+- HBD🎂
+- vSQLfmt gets able to format 'INSERT' queries!
