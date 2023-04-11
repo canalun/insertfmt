@@ -2,7 +2,7 @@
 
 fast & easy CLI specialized to format MySQL INSERT queries.
 
-![preview](https://user-images.githubusercontent.com/61643630/218512239-eb1d784d-a86f-49cd-8b43-33708a02659c.gif)
+![preview](./images/preview.gif)
 
 ## Installation
 
