@@ -1,6 +1,5 @@
 use std::io::{Error, ErrorKind};
 
-use itertools::Itertools;
 use regex::Regex;
 use sqlparser::ast::{Ident, ObjectName, SetExpr, Values};
 use sqlparser::{ast::Statement, dialect::MySqlDialect, parser::Parser};
@@ -48,14 +47,13 @@ pub fn format_insert_queries(sql: &str) -> Result<String, Box<dyn std::error::Er
 
     let result = comment_and_query_map
         .into_iter()
-        .map(|comment_and_query| {
-            if comment_and_query[0].starts_with("INSERT INTO") {
-                return vec![formatted_queries.remove(0)];
+        .map(|comment_or_query| {
+            if comment_or_query.starts_with("INSERT INTO") {
+                return formatted_queries.remove(0);
             } else {
-                return comment_and_query;
+                return comment_or_query;
             }
         })
-        .flatten()
         .collect::<Vec<String>>()
         .join("\n");
 
@@ -81,22 +79,14 @@ fn is_insert_only(ast: &Vec<Statement>) -> bool {
     });
 }
 
-// this func returns a two-dimensional vec of queries and comments.
-// comments grouped into vec by relative position against query.
-// i.e. [["XX", "XX"], ["INSERT INTO"], ["INSERT INTO"], ["XX", "XX", "XX"], ["INSERT INTO"]]
-fn generate_comment_and_query_map(sql_with_comment: &str) -> Vec<Vec<String>> {
+// this func returns a vec of comments and query prefixes.
+// the prefixes are used to identify where each comment is written.
+fn generate_comment_and_query_map(sql_with_comment: &str) -> Vec<String> {
     return Regex::new(r"(--.*)|(INSERT INTO)")
         .unwrap()
         .captures_iter(sql_with_comment)
-        .group_by(|capture| capture[0].starts_with("INSERT INTO"))
-        .into_iter()
-        .map(|(_, a)| {
-            return a
-                .into_iter()
-                .map(|capture| String::from(&capture[0]))
-                .collect::<Vec<String>>();
-        })
-        .collect::<Vec<Vec<String>>>();
+        .map(|capture| return String::from(&capture[0]))
+        .collect::<Vec<String>>();
 }
 
 fn get_max_char_length_vec(columns: &Vec<Ident>, values: &Values) -> Vec<usize> {
@@ -178,10 +168,11 @@ fn generate_formatted_query(
         }
         rows_part += ")";
         if row_index != values.rows.len() - 1 {
-            rows_part += ",\n"
+            rows_part += ","
         } else {
             rows_part += ";"
         }
+        rows_part += "\n";
     }
 
     return String::from("") + &table_name_part + &column_name_part + &values_part + &rows_part;
