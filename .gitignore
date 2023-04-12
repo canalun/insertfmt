@@ -1,3 +1,5 @@
 /target
 /memo
 /vscode_extension/node_modules
+/vscode_extension/insertfmt_core_wasm
+/vscode_extension/dist
