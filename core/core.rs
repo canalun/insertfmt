@@ -3,6 +3,8 @@ use std::io::{Error, ErrorKind};
 use regex::Regex;
 use sqlparser::ast::{Ident, ObjectName, SetExpr, Values};
 use sqlparser::{ast::Statement, dialect::MySqlDialect, parser::Parser};
+use wasm_bindgen::prelude::wasm_bindgen;
+use wasm_bindgen::JsValue;
 
 pub fn format_insert_queries(sql: &str) -> Result<String, Box<dyn std::error::Error>> {
     let dialect = MySqlDialect {};
@@ -11,7 +13,7 @@ pub fn format_insert_queries(sql: &str) -> Result<String, Box<dyn std::error::Er
     if !is_insert_only(&ast) {
         return Err(Box::new(Error::new(
             ErrorKind::InvalidInput,
-            "files to be formatted must not include queries other than INSERT",
+            "this sql contains non-insert queries",
         )));
     }
 
@@ -58,6 +60,14 @@ pub fn format_insert_queries(sql: &str) -> Result<String, Box<dyn std::error::Er
         .join("\n");
 
     return Ok(result);
+}
+
+#[wasm_bindgen]
+pub fn format_insert_queries_wasm(sql: &str) -> Result<String, JsValue> {
+    return match format_insert_queries(sql) {
+        Ok(formatted_queries) => Ok(formatted_queries),
+        Err(err) => Err(JsValue::from_str(&err.to_string())),
+    };
 }
 
 fn is_insert_only(ast: &Vec<Statement>) -> bool {
