@@ -4,8 +4,9 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "npm",
-			"script": "watch",
+			"label": "watch",
+			"type": "shell",
+			"command": "cd vscode_extension && yarn watch",
 			"problemMatcher": "$ts-webpack-watch",
 			"isBackground": true,
 			"presentation": {
@@ -18,8 +19,9 @@
 			}
 		},
 		{
-			"type": "npm",
-			"script": "watch-tests",
+			"label": "watch-tests",
+			"type": "shell",
+			"command": "cd vscode_extension && yarn watch-tests",
 			"problemMatcher": "$tsc-watch",
 			"isBackground": true,
 			"presentation": {
@@ -31,8 +33,8 @@
 		{
 			"label": "tasks: watch-tests",
 			"dependsOn": [
-				"npm: watch",
-				"npm: watch-tests"
+				"watch",
+				"watch-tests"
 			],
 			"problemMatcher": []
 		}
