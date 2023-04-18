@@ -15,5 +15,6 @@
     ],
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true,
-    }
+    },
+    "cmake.configureOnOpen": false
 }
