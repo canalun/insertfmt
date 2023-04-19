@@ -13,7 +13,7 @@ pub fn format_insert_queries(sql: &str) -> Result<String, Box<dyn std::error::Er
     if !is_insert_only(&ast) {
         return Err(Box::new(Error::new(
             ErrorKind::InvalidInput,
-            "this sql contains non-insert queries",
+            "this sql contains queries other than insert.",
         )));
     }
 
