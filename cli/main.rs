@@ -9,6 +9,10 @@ use std::{
 
 fn main() {
     let args: Vec<String> = env::args().collect();
+    if args.len() == 1 {
+        eprintln!("error: give file paths\nusage: insertfmt <path1> <path2> ...");
+        process::exit(1);
+    }
 
     let mut failed_paths: Vec<&str> = Vec::new();
     for path in args.iter().skip(1) {
@@ -21,12 +25,12 @@ fn main() {
     }
     if failed_paths.len() > 0 {
         println!(
-            "result\n👻 failed to format the following files: {}",
+            "result:👻 failed to format the following files: {}",
             failed_paths.join(", ")
         );
         process::exit(1);
     } else {
-        println!("result\n🎉 succeeded to format all the files!!");
+        println!("result:🎉 succeeded to format all the files!!");
         process::exit(0);
     }
 }
