@@ -4,7 +4,7 @@ fast & easy CLI specialized to format MySQL INSERT queries.
 
 format queries so that they look like a table.
 
-![preview](./images/preview.gif)
+![preview](https://raw.githubusercontent.com/canalun/insertfmt/main/images/preview.gif)
 
 ## Installation
 
