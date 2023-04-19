@@ -8,16 +8,16 @@ format queries so that they look like a table.
 
 ## Installation
 
-You can install the module directly with `cargo`.
+You can download the binary from releases.
+
+The binary is self-sufficient with no dependencies, and can be put anywhere on
+your PATH and run with `insertfmt` command!!
+
+Or, you can also install the module directly with `cargo`.
 
 ```
 cargo install insertfmt
 ```
-
-You can also download the binary from releases.
-
-The binary is self-sufficient with no dependencies, and can be put anywhere on
-your PATH and run with `insertfmt` command.
 
 ## Basic Usage
 
@@ -30,6 +30,12 @@ insertfmt x.sql y.sql <...>
 You can specify as many paths as you want.
 
 ## Release Note
+
+### v1.0.1
+
+- fix error msg
+
 ### v1.0.0
+
 - HBD🎂
 - vSQLfmt gets able to format 'INSERT' queries!
