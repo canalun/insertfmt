@@ -1,5 +1,4 @@
 import * as vscode from 'vscode'
-import { format_insert_queries_wasm } from '../insertfmt_core_wasm/insertfmt_core'
 
 export function activate(context: vscode.ExtensionContext) {
   const disposable = vscode.commands.registerCommand(
@@ -11,21 +10,28 @@ export function activate(context: vscode.ExtensionContext) {
       }
       const text = editor.document.getText()
 
-      const result = format_insert_queries_wasm(text)
+      import('insertfmt').then((module) => {
+        try {
+          const result = module.format_insert_queries_wasm(text)
 
-      // replace the entire file
-      const firstLine = editor.document.lineAt(0)
-      const lastLine = editor.document.lineAt(editor.document.lineCount - 1)
-      const textRange = new vscode.Range(
-        firstLine.range.start,
-        lastLine.range.end
-      )
-      editor.edit((editBuilder) => {
-        editBuilder.replace(textRange, result)
+          // replace the entire file
+          const firstLine = editor.document.lineAt(0)
+          const lastLine = editor.document.lineAt(editor.document.lineCount - 1)
+          const textRange = new vscode.Range(
+            firstLine.range.start,
+            lastLine.range.end
+          )
+          editor.edit((editBuilder) => {
+            editBuilder.replace(textRange, result)
+          })
+        } catch (e) {
+          vscode.window.showErrorMessage(
+            ['cannot format the file.', e].join(' ')
+          )
+        }
       })
     }
   )
-
   context.subscriptions.push(disposable)
 }
 
