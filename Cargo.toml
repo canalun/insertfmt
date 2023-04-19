@@ -2,6 +2,8 @@
 name = "insertfmt"
 version = "1.0.0"
 edition = "2021"
+description = "fast & easy CLI and vscode extension specialized to format MySQL INSERT queries"
+license = "MIT"
 
 [[bin]]
 name = "insertfmt"
