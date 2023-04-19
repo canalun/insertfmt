@@ -10,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
       const text = editor.document.getText()
 
-      import('insertfmt').then((module) => {
+      import('../insertfmt_core').then((module) => {
         try {
           const result = module.format_insert_queries_wasm(text)
 

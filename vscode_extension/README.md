@@ -25,4 +25,4 @@ root directory👶
 
 And if you want build and run the extension on local, at the root directory,
 please run `make gen-wasm-for-extension` and run debugger in 'run extension'
-mode.
+mode. (Of course, don't forget `yarn` in this directory)

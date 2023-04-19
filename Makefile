@@ -9,5 +9,5 @@ gen-release-bin-on-m1-mac:
 	tar -zcvf x86_64-unknown-linux-musl-v1.0.0.tar.gz ./target/x86_64-unknown-linux-musl/release/insertfmt
 
 gen-wasm-for-extension:
-	rm -rf ./vscode_extension/node_modules/insertfmt
-	wasm-pack build --target bundler --out-dir ./vscode_extension/node_modules/insertfmt --release
+	rm -rf ./vscode_extension/insertfmt_core
+	wasm-pack build --target bundler --out-dir ./vscode_extension/insertfmt_core --release
