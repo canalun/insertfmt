@@ -4,3 +4,4 @@
 /vscode_extension/node_modules
 /vscode_extension/insertfmt_core
 /vscode_extension/dist
+/vscode_extension/*.vsix
