@@ -2,10 +2,16 @@
   "name": "insertfmt",
   "displayName": "INSERTfmt",
   "description": "fast & easy formatter specialized in MySQL INSERT queries",
-  "version": "0.0.1",
+  "version": "1.0.2",
   "engines": {
     "vscode": "^1.77.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/canalun/insertfmt.git"
+  },
+  "license": "https://github.com/canalun/insertfmt/blob/main/LICENSE",
+  "publisher": "canalun",
   "categories": [
     "Other"
   ],

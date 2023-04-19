@@ -13,6 +13,10 @@ fast & easy vscode extension specialized to format INSERT queries🥳
 
 ## Release Notes 📓
 
+### v1.0.1-1.0.2
+
+- fix error msg
+
 ### 1.0.0
 
 - HBD🎂
