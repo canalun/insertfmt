@@ -136,7 +136,10 @@ fn get_char_length_matrix(columns: &Vec<Ident>, values: &Values) -> Vec<Vec<usiz
         .map(|chunk| chunk.to_vec())
         .chain(values.rows.iter().map(|row| {
             row.iter()
-                .map(|value| value.to_string().len())
+                .map(|value| {
+                    let res = value.to_string().replace("\"", "\\\"");
+                    return res.len();
+                })
                 .collect::<Vec<usize>>()
         }))
         .collect::<Vec<Vec<usize>>>();
@@ -171,7 +174,7 @@ fn generate_formatted_query(
         for (column_index, value) in row.iter().enumerate() {
             let adjustment = String::from(" ")
                 .repeat(max_char_length_vec[column_index] - value.to_string().len());
-            rows_part = rows_part + &value.to_string() + &adjustment;
+            rows_part = rows_part + &value.to_string().replace("\"", "\\\"") + &adjustment;
             if column_index != row.len() - 1 {
                 rows_part += ","
             }
