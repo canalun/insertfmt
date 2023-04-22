@@ -1,6 +1,6 @@
 name: cargo_test
 run-name: testing by cargo test
-on: [push]
+on: [push, pull_request]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
