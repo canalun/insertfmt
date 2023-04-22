@@ -1,0 +1,86 @@
+name: release_cli
+run-name: release cli
+on:
+  push:
+    tags:
+      - "v*"
+jobs:
+  check_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if tag is a valid version
+        run: |
+          if [[ "${{ github.ref_name }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            exit 0
+          fi
+          exit 1
+  cargo_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+      - uses: actions-rs/cargo@v1
+        with:
+          command: test
+  release_cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+      - name: Check if tagged branch is main
+        run: |
+          BRANCHS=$(git branch --contains ${{ github.ref_name }})
+          set -- $BRANCHS
+          for BRANCH in $BRANCHS ; do
+            if [[ "$BRANCH" == "main" ]]; then
+              exit 0
+            fi
+          done
+          exit 1
+      - name: Install cross for build
+        uses: actions-rs/cargo@v1
+        with:
+          command: install cross --git https://github.com/cross-rs/cross
+      - name: Build
+        run: make gen-release-bin-on-m1-mac
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body: |
+            Release ${{ github.ref }}
+      - name: Upload aarch64-apple-darwin
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/aarch64-apple-darwin-${{ github.ref }}.tar.gz
+          asset_name: aarch64-apple-darwin-${{ github.ref }}.tar.gz
+          asset_content_type: application/gzip
+      - name: Upload x86_64-pc-windows-gnu
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/x86_64-pc-windows-gnu-${{ github.ref }}.tar.gz
+          asset_name: x86_64-pc-windows-gnu-${{ github.ref }}.tar.gz
+          asset_content_type: application/gzip
+      - name: Upload x86_64-unknown-linux-musl
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/x86_64-unknown-linux-musl-${{ github.ref }}.tar.gz
+          asset_name: x86_64-unknown-linux-musl-${{ github.ref }}.tar.gz
+          asset_content_type: application/gzip
