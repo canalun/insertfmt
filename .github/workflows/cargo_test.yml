@@ -2,7 +2,7 @@ name: cargo_test
 run-name: testing by cargo test
 on: [push, pull_request]
 jobs:
-  Explore-GitHub-Actions:
+  cargo_test:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
