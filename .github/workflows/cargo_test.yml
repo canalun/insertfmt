@@ -1,6 +1,6 @@
 name: cargo_test
 run-name: testing by cargo test
-on: [push, pull_request]
+on: pull_request
 jobs:
   cargo_test:
     runs-on: ubuntu-latest
