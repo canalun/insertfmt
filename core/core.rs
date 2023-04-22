@@ -190,3 +190,30 @@ fn generate_formatted_query(
 
     return String::from("") + &table_name_part + &column_name_part + &values_part + &rows_part;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn keep_backslashes() {
+        let query_with_backslash =
+            "INSERT INTO `table` (`id`, `content`) VALUES (1, `\\\"example\\\"`);";
+        let formatted =
+            "INSERT INTO `table`\n(`id`,`content`      )\nVALUES\n(1   ,`\\\\\"example\\\\\"`  );\n";
+        assert_eq!(
+            format_insert_queries(query_with_backslash).unwrap(),
+            formatted
+        );
+    }
+
+    #[test]
+    fn work_with_function() {
+        let query_with_function = "INSERT INTO `table` (`id`, `created_at`) VALUES (1, now());";
+        let formatted = "INSERT INTO `table`\n(`id`,`created_at`)\nVALUES\n(1   ,now()       );\n";
+        assert_eq!(
+            format_insert_queries(query_with_function).unwrap(),
+            formatted
+        );
+    }
+}
