@@ -137,8 +137,7 @@ fn get_char_length_matrix(columns: &Vec<Ident>, values: &Values) -> Vec<Vec<usiz
         .chain(values.rows.iter().map(|row| {
             row.iter()
                 .map(|value| {
-                    let res = value.to_string().replace("\"", "\\\"");
-                    return res.len();
+                    return value.to_string().len();
                 })
                 .collect::<Vec<usize>>()
         }))
@@ -174,7 +173,7 @@ fn generate_formatted_query(
         for (column_index, value) in row.iter().enumerate() {
             let adjustment = String::from(" ")
                 .repeat(max_char_length_vec[column_index] - value.to_string().len());
-            rows_part = rows_part + &value.to_string().replace("\"", "\\\"") + &adjustment;
+            rows_part = rows_part + &value.to_string() + &adjustment;
             if column_index != row.len() - 1 {
                 rows_part += ","
             }
@@ -191,18 +190,121 @@ fn generate_formatted_query(
     return String::from("") + &table_name_part + &column_name_part + &values_part + &rows_part;
 }
 
+// // The escape behavior of the sqlparser of v0.33.0 depends on if the value is quoted by backtick or else.
+// // If the value is quoted by backtick, the sqlparser escapes the backslash.
+// // But if the value is quoted by single quote or double quote, the sqlparser does NOT escape the backslash.
+// // This module escape the value WHEN it is quoted by single quote or double quote.
+// fn escape_stringified_value(str: &str) -> String {
+//     let ch1 = str.chars().nth(0).unwrap();
+//     match ch1 {
+//         '\'' => {
+//             return str
+//                 .replace("\n", "\\n")
+//                 .replace("\"", "\\\"")
+//                 .replace("\t", "\\t")
+//                 .replace("\r", "\\r")
+//         }
+//         '"' => {
+//             return str
+//                 .replace("\n", "\\n")
+//                 .replace("'", "\\'")
+//                 .replace("\t", "\\t")
+//                 .replace("\r", "\\r")
+//         }
+//         _ => return str.to_string(),
+//     }
+// }
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn keep_backslashes() {
-        let query_with_backslash =
-            "INSERT INTO `table` (`id`, `content`) VALUES (1, `\\\"example\\\"`);";
-        let formatted =
-            "INSERT INTO `table`\n(`id`,`content`      )\nVALUES\n(1   ,`\\\\\"example\\\\\"`  );\n";
+    fn keep_backslashes_in_query_enclosed_with_backticks() {
+        let query_with_backslash_with_backtick =
+            r#"INSERT INTO `table` (`id`, `content`) VALUES (1, `\"e\nxample\"`);"#;
+        let formatted = r#"INSERT INTO `table`
+(`id`,`content`      )
+VALUES
+(1   ,`\"e\nxample\"`);
+"#;
         assert_eq!(
-            format_insert_queries(query_with_backslash).unwrap(),
+            format_insert_queries(query_with_backslash_with_backtick).unwrap(),
+            formatted
+        );
+    }
+
+    #[test]
+    fn keep_backslashes_in_query_enclosed_with_single_quotes() {
+        let query_with_backslash_with_single_quote =
+            r#"INSERT INTO `table` ('id', 'content') VALUES (1, '\"e\nxample\"');"#;
+        let formatted = r#"INSERT INTO `table`
+('id','content'      )
+VALUES
+(1   ,'\"e\nxample\"');
+"#;
+        assert_eq!(
+            format_insert_queries(query_with_backslash_with_single_quote).unwrap(),
+            formatted
+        );
+    }
+
+    #[test]
+    fn keep_backslashes_in_query_enclosed_with_double_quotes() {
+        let query_with_backslash_with_double_quote =
+            r#"INSERT INTO `table` ("id", "content") VALUES (1, "\'e\nxample\'");"#;
+        let formatted = r#"INSERT INTO `table`
+("id","content"      )
+VALUES
+(1   ,"\'e\nxample\'");
+"#;
+        assert_eq!(
+            format_insert_queries(query_with_backslash_with_double_quote).unwrap(),
+            formatted
+        );
+    }
+
+    #[test]
+    fn not_add_backslashes_to_query_enclosed_with_backticks() {
+        let query_without_backslash_with_backticks =
+            r#"INSERT INTO `table` (`id`, `content`) VALUES (1, `'"example"'`);"#;
+        let formatted = r#"INSERT INTO `table`
+(`id`,`content`    )
+VALUES
+(1   ,`'"example"'`);
+"#;
+        assert_eq!(
+            format_insert_queries(query_without_backslash_with_backticks).unwrap(),
+            formatted
+        );
+    }
+
+    #[test]
+    fn not_add_backslashes_to_query_enclosed_with_single_quotes() {
+        let query_without_backslash_with_single_quotes =
+            r#"INSERT INTO `table` ('id', 'content') VALUES (1, '"example"');"#;
+        let formatted = r#"INSERT INTO `table`
+('id','content'  )
+VALUES
+(1   ,'"example"');
+"#;
+        assert_eq!(
+            format_insert_queries(query_without_backslash_with_single_quotes).unwrap(),
+            formatted
+        );
+    }
+
+    #[test]
+    fn not_add_backslashes_to_query_enclosed_with_double_quotes() {
+        let query_without_backslash_with_double_quotes =
+            r#"INSERT INTO `table` ("id", "content") VALUES (1, "'example'");"#;
+        let formatted = r#"INSERT INTO `table`
+("id","content"  )
+VALUES
+(1   ,"'example'");
+"#;
+        assert_eq!(
+            format_insert_queries(query_without_backslash_with_double_quotes).unwrap(),
             formatted
         );
     }
