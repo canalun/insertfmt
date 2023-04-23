@@ -2,7 +2,7 @@
   "name": "insertfmt",
   "displayName": "INSERTfmt",
   "description": "fast & easy formatter specialized in MySQL INSERT queries",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "engines": {
     "vscode": "^1.77.0"
   },
