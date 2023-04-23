@@ -33,7 +33,7 @@ jobs:
           ref: main
       - name: Check if tagged branch is main
         run: |
-          BRANCHES=$(git branch --contains "${{ github.ref_name }}"
+          BRANCHES=$(git branch --contains "${{ github.ref_name }}")
           set -- $BRANCHES
           for BRANCH in $BRANCHES ; do
             if [[ "$BRANCH" == "* main" ]]; then
