@@ -33,10 +33,10 @@ jobs:
           ref: main
       - name: Check if tagged branch is main
         run: |
-          BRANCHS=$(git branch --contains ${{ github.ref_name }})
-          set -- $BRANCHS
-          for BRANCH in $BRANCHS ; do
-            if [[ "$BRANCH" == "main" ]]; then
+          BRANCHES=$(git branch --contains "${{ github.ref_name }}"
+          set -- $BRANCHES
+          for BRANCH in $BRANCHES ; do
+            if [[ "$BRANCH" == "* main" ]]; then
               exit 0
             fi
           done
@@ -53,10 +53,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
           body: |
-            Release ${{ github.ref }}
+            Release ${{ github.ref_name }}
           draft: true
       - name: Upload aarch64-apple-darwin
         uses: actions/upload-release-asset@v1.0.2
@@ -64,8 +64,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/aarch64-apple-darwin-${{ github.ref }}.tar.gz
-          asset_name: aarch64-apple-darwin-${{ github.ref }}.tar.gz
+          asset_path: ./dist/aarch64-apple-darwin-${{ github.ref_name }}.tar.gz
+          asset_name: aarch64-apple-darwin-${{ github.ref_name }}.tar.gz
           asset_content_type: application/gzip
       - name: Upload x86_64-pc-windows-gnu
         uses: actions/upload-release-asset@v1.0.2
@@ -73,8 +73,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/x86_64-pc-windows-gnu-${{ github.ref }}.tar.gz
-          asset_name: x86_64-pc-windows-gnu-${{ github.ref }}.tar.gz
+          asset_path: ./dist/x86_64-pc-windows-gnu-${{ github.ref_name }}.tar.gz
+          asset_name: x86_64-pc-windows-gnu-${{ github.ref_name }}.tar.gz
           asset_content_type: application/gzip
       - name: Upload x86_64-unknown-linux-musl
         uses: actions/upload-release-asset@v1.0.2
@@ -82,8 +82,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/x86_64-unknown-linux-musl-${{ github.ref }}.tar.gz
-          asset_name: x86_64-unknown-linux-musl-${{ github.ref }}.tar.gz
+          asset_path: ./dist/x86_64-unknown-linux-musl-${{ github.ref_name }}.tar.gz
+          asset_name: x86_64-unknown-linux-musl-${{ github.ref_name }}.tar.gz
           asset_content_type: application/gzip
       - name: Publish to crates.io
         uses: actions-rs/cargo@v1
