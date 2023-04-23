@@ -31,6 +31,10 @@ You can specify as many paths as you want.
 
 ## Release Note
 
+### v1.0.3
+
+- fix bug of backslash disappearance!
+
 ### v1.0.1-1.0.2
 
 - fix error msg
