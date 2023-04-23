@@ -85,3 +85,8 @@ jobs:
           asset_path: ./dist/x86_64-unknown-linux-musl-${{ github.ref }}.tar.gz
           asset_name: x86_64-unknown-linux-musl-${{ github.ref }}.tar.gz
           asset_content_type: application/gzip
+      - name: Publish to crates.io
+        uses: actions-rs/cargo@v1
+        with:
+          command: publish
+          args: --token ${{ secrets.CRATES_IO_TOKEN }}
