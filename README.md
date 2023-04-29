@@ -46,3 +46,12 @@ You can specify as many paths as you want.
 
 - HBD🎂
 - vSQLfmt gets able to format 'INSERT' queries!
+
+## Monorepo
+This repository is a monorepo of Rust CLI and TS+Wasm VSCode extension.
+If you are interested in it technically, why not check the below article out🌟
+[XXXX](XXXXX)
+
+## Contribution
+You wanna contribute!? Thanks!!!! Would be great if you check the below doc out😊
+[CONTRIBUTING.md](./CONTRIBUTING.md)
