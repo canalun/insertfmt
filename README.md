@@ -6,6 +6,9 @@ format queries so that they look like a table.
 
 ![preview](https://raw.githubusercontent.com/canalun/insertfmt/main/images/preview.gif)
 
+NOTE: If you wanna use the VSCode extension, please get it from the below link. Thanks!
+https://marketplace.visualstudio.com/items?itemName=canalun.insertfmt
+
 ## Installation
 
 You can download the binary from releases.
