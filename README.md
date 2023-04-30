@@ -6,6 +6,9 @@ format queries so that they look like a table.
 
 ![preview](https://raw.githubusercontent.com/canalun/insertfmt/main/images/preview.gif)
 
+**NOTE**: If you wanna use the VSCode extension, please get it from the below link. Thanks!
+https://marketplace.visualstudio.com/items?itemName=canalun.insertfmt
+
 ## Installation
 
 You can download the binary from releases.
@@ -43,3 +46,12 @@ You can specify as many paths as you want.
 
 - HBD🎂
 - vSQLfmt gets able to format 'INSERT' queries!
+
+## Monorepo
+This repository is a monorepo of Rust CLI and TS+Wasm VSCode extension.
+If you are interested in it technically, why not check out the below article🌟
+[dev.to: Monorepo of Rust CLI & TS+Wasm VSCode](https://dev.to/canalun/monorepo-of-rust-cli-tswasm-vscode-4bme)
+
+## Contribution
+You wanna contribute!? Thanks!!!! Would be great if you check the below doc out😊
+[CONTRIBUTING.md](./CONTRIBUTING.md)
