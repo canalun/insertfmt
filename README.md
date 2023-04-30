@@ -11,12 +11,13 @@ https://marketplace.visualstudio.com/items?itemName=canalun.insertfmt
 
 ## Installation
 
-You can download the binary from releases.
+**You can download the binary from releases.**
 
-The binary is self-sufficient with no dependencies, and can be put anywhere on
-your PATH and run with `insertfmt` command!!
+The binary is self-sufficient with no dependencies, and **can be put anywhere on
+your PATH and run with `insertfmt` command!!**
 
-Or, you can also install the module directly with `cargo`.
+
+Or, **you can also install the module directly with `cargo`.**
 
 ```
 cargo install insertfmt
@@ -49,9 +50,12 @@ You can specify as many paths as you want.
 
 ## Monorepo
 This repository is a monorepo of Rust CLI and TS+Wasm VSCode extension.
+
 If you are interested in it technically, why not check out the below article🌟
+
 [dev.to: Monorepo of Rust CLI & TS+Wasm VSCode](https://dev.to/canalun/monorepo-of-rust-cli-tswasm-vscode-4bme)
 
 ## Contribution
 You wanna contribute!? Thanks!!!! Would be great if you check the below doc out😊
+
 [CONTRIBUTING.md](./CONTRIBUTING.md)
