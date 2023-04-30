@@ -49,8 +49,8 @@ You can specify as many paths as you want.
 
 ## Monorepo
 This repository is a monorepo of Rust CLI and TS+Wasm VSCode extension.
-If you are interested in it technically, why not check the below article out🌟
-[XXXX](XXXXX)
+If you are interested in it technically, why not check out the below article🌟
+[dev.to: Monorepo of Rust CLI & TS+Wasm VSCode](https://dev.to/canalun/monorepo-of-rust-cli-tswasm-vscode-4bme)
 
 ## Contribution
 You wanna contribute!? Thanks!!!! Would be great if you check the below doc out😊
