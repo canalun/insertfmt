@@ -1,3 +1,10 @@
+[![Test status](https://github.com/canalun/insertfmt/actions/workflows/cargo_test.yml/badge.svg)](https://github.com/canalun/insertfmt/actions/workflows/cargo_test.yml)
+[![Docs](https://docs.rs/insertfmt/badge.svg)](https://docs.rs/insertfmt)
+[![Dependency status](https://deps.rs/repo/github/canalun/insertfmt/status.svg)](https://deps.rs/repo/github/canalun/insertfmt)
+
+![Rust version](https://img.shields.io/badge/rust--version-1.68+-brightgreen.svg)
+[![Crates.io](https://img.shields.io/crates/v/insertfmt.svg)](https://crates.io/crates/insertfmt)
+
 # insertfmt
 
 fast & easy CLI specialized to format MySQL INSERT queries.
