@@ -17,7 +17,7 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 regex = "1.8.2"
 sqlparser = "0.33.0"
-itertools = "0.10.5"
+itertools = "0.11.0"
 wasm-bindgen = "0.2.84"
 
 [patch.crates-io]
