@@ -31,16 +31,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: main
-      - name: Check if tagged branch is main
-        run: |
-          BRANCHES=$(git branch --contains "${{ github.ref_name }}")
-          set -- $BRANCHES
-          for BRANCH in $BRANCHES ; do
-            if [[ "$BRANCH" == "* main" ]]; then
-              exit 0
-            fi
-          done
-          exit 1
       - name: Install cross for build
         uses: actions-rs/cargo@v1
         with:
