@@ -13,6 +13,10 @@ fast & easy vscode extension specialized to format INSERT queries🥳
 
 ## Release Notes 📓
 
+### v1.0.4
+
+- update libraries
+
 ### v1.0.3
 
 - fix bug of backslash disappearance!
