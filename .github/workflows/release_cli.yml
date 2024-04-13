@@ -34,7 +34,7 @@ jobs:
       - name: Install cross for build
         uses: actions-rs/cargo@v1
         with:
-          command: install cross --git https://github.com/cross-rs/cross -zScript
+          command: install cross --git https://github.com/cross-rs/cross -Zscript
       - name: Build
         run: make gen-release-bin-on-m1-mac
       - name: Create Release
