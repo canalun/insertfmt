@@ -1,14 +1,18 @@
 use std::io::{Error, ErrorKind};
 
 use regex::Regex;
-use sqlparser::ast::{Ident, ObjectName, SetExpr, Values};
-use sqlparser::{ast::Statement, dialect::MySqlDialect, parser::Parser};
+use sqlparser::ast::{Ident, ObjectName, SetExpr, Statement, Values};
+use sqlparser::{dialect::MySqlDialect, parser::Parser, parser::ParserOptions};
 use wasm_bindgen::prelude::wasm_bindgen;
 use wasm_bindgen::JsValue;
 
 pub fn format_insert_queries(sql: &str) -> Result<String, Box<dyn std::error::Error>> {
     let dialect = MySqlDialect {};
-    let ast = Parser::parse_sql(&dialect, sql)?;
+    let options = ParserOptions::default().with_unescape(false);
+    let ast = Parser::new(&dialect)
+        .with_options(options)
+        .try_with_sql(sql)?
+        .parse_statements()?;
 
     if !is_insert_only(&ast) {
         return Err(Box::new(Error::new(
@@ -19,33 +23,30 @@ pub fn format_insert_queries(sql: &str) -> Result<String, Box<dyn std::error::Er
 
     let comment_and_query_map = generate_comment_and_query_map(sql);
 
-    let mut formatted_queries = ast
+    let mut formatted_queries: Vec<String> = ast
         .iter()
-        .map(|query| {
+        .filter_map(|query| {
             if let Statement::Insert {
-                or: _,
-                into: _,
                 table_name,
                 columns,
-                overwrite: _,
                 source,
-                partitioned: _,
-                after_columns: _,
-                table: _,
-                on: _,
-                returning: _,
+                ..
             } = query
             {
-                if let SetExpr::Values(values) = &*source.body {
-                    let max_char_length_vec = get_max_char_length_vec(columns, values);
-                    let formatted_query =
-                        generate_formatted_query(table_name, columns, values, &max_char_length_vec);
-                    return formatted_query;
+                if let SetExpr::Values(values) = *source.clone().unwrap().body {
+                    let max_char_length_vec = get_max_char_length_vec(columns, &values);
+                    let formatted_query = generate_formatted_query(
+                        table_name,
+                        columns,
+                        &values,
+                        &max_char_length_vec,
+                    );
+                    return Some(formatted_query);
                 }
             }
-            return String::from("");
+            return None;
         })
-        .collect::<Vec<String>>();
+        .collect();
 
     let result = comment_and_query_map
         .into_iter()
@@ -70,23 +71,9 @@ pub fn format_insert_queries_wasm(sql: &str) -> Result<String, JsValue> {
     };
 }
 
-fn is_insert_only(ast: &Vec<Statement>) -> bool {
-    return ast.iter().fold(true, |a, query| match query {
-        Statement::Insert {
-            or: _,
-            into: _,
-            table_name: _,
-            columns: _,
-            overwrite: _,
-            source: _,
-            partitioned: _,
-            after_columns: _,
-            table: _,
-            on: _,
-            returning: _,
-        } => return a && true,
-        _ => return a && false,
-    });
+fn is_insert_only(ast: &[Statement]) -> bool {
+    ast.iter()
+        .all(|query| matches!(query, Statement::Insert { .. }))
 }
 
 // this func returns a vec of comments and query prefixes.
