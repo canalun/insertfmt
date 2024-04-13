@@ -18,7 +18,7 @@ crate-type = ["cdylib", "rlib"]
 regex = "1.9.3"
 sqlparser = "0.33.0"
 itertools = "0.11.0"
-wasm-bindgen = "0.2.84"
+wasm-bindgen = "0.2.87"
 
 [patch.crates-io]
 sqlparser = { git = 'https://github.com/canalun/sqlparser-rs', branch = 'feat/add_non_escape_mode' }
