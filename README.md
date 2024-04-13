@@ -42,6 +42,10 @@ You can specify as many paths as you want.
 
 ## Release Note
 
+### v1.0.4
+
+- update libraries
+
 ### v1.0.3
 
 - fix bug of backslash disappearance!
