@@ -13,6 +13,8 @@ format queries so that they look like a table.
 
 ![preview](https://raw.githubusercontent.com/canalun/insertfmt/main/images/preview.gif)
 
+**implement details are here**: [dev.to: Monorepo of Rust CLI & TS+Wasm VSCode](https://dev.to/canalun/monorepo-of-rust-cli-tswasm-vscode-4bme)
+
 **NOTE: If you wanna use the VSCode extension, please get it from the below link. Thanks!**
 https://marketplace.visualstudio.com/items?itemName=canalun.insertfmt
 
